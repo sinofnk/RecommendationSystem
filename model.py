@@ -1,4 +1,3 @@
-
 from nltk.tokenize import word_tokenize
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.corpus import wordnet
@@ -15,10 +14,10 @@ nltk.download('averaged_perceptron_tagger')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 
+
 class SentimentRecommenderModel:
 
-   
-    ROOT_PATH = "Pickle/"
+    ROOT_PATH = "pickle/"
     MODEL_NAME = "sentiment-classification-xg-boost-model.pkl"
     VECTORIZER = "tfidf-vectorizer.pkl"
     RECOMMENDER = "user_final_rating.pkl"
@@ -31,7 +30,7 @@ class SentimentRecommenderModel:
             SentimentRecommenderModel.ROOT_PATH + SentimentRecommenderModel.VECTORIZER)
         self.user_final_rating = pickle.load(open(
             SentimentRecommenderModel.ROOT_PATH + SentimentRecommenderModel.RECOMMENDER, 'rb'))
-        self.data = pd.read_csv("/content/drive/MyDrive/Sentiment model recommendation system/sample30.csv")
+        self.data = pd.read_csv("dataset/sample30.csv")
         self.cleaned_data = pickle.load(open(
             SentimentRecommenderModel.ROOT_PATH + SentimentRecommenderModel.CLEANED_DATA, 'rb'))
         self.lemmatizer = WordNetLemmatizer()
@@ -39,12 +38,11 @@ class SentimentRecommenderModel:
 
     """function to get the top product 20 recommendations for the user"""
 
-    def getRecommendationByUser(self,user):
-      recommendation=[]
-      return list(self.user_final_rating.loc[user].sort_values(ascending=False)[0:20].index)
+    def getRecommendationByUser(self, user):
+        recommedations = []
+        return list(self.user_final_rating.loc[user].sort_values(ascending=False)[0:20].index)
 
     """function to filter the product recommendations using the sentiment model and get the top 5 recommendations"""
-
 
     def getSentimentRecommendations(self, user):
         if (user in self.user_final_rating.index):
@@ -74,7 +72,6 @@ class SentimentRecommenderModel:
             print(f"User name {user} doesn't exist")
             return None
 
-
     """function to classify the sentiment to 1/0 - positive or negative - using the trained ML model"""
 
     def classify_sentiment(self, review_text):
@@ -82,6 +79,7 @@ class SentimentRecommenderModel:
         X = self.vectorizer.transform([review_text])
         y_pred = self.model.predict(X)
         return y_pred
+
     """function to preprocess the text before it's sent to ML model"""
 
     def preprocess_text(self, text):
@@ -96,6 +94,7 @@ class SentimentRecommenderModel:
         # remove stop-words and convert it to lemma
         text = self.lemma_text(text)
         return text
+
     """function to get the pos tag to derive the lemma form"""
 
     def get_wordnet_pos(self, tag):

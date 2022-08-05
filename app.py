@@ -1,5 +1,3 @@
-
-
 from email import header
 from operator import index
 from flask import Flask, request, render_template, jsonify
@@ -44,5 +42,4 @@ def predict_sentiment():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
+    app.run()
