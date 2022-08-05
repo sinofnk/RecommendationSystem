@@ -1,10 +1,5 @@
 wordnet
-pros_cons
-reuters
 punkt
-snowball_data
-rslp
-porter_test
-vader_lexicon
-treebank
-dependency_treebank
+averaged_perceptron_tagger
+averaged_perceptron_tagger_ru
+omw-1.4
